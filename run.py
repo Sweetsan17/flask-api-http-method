@@ -256,6 +256,30 @@ def get_sports():
     return jsonify(details), 200
 
 
+# GET ONE METHOD ROUTE
+
+
+@app.route("/api/sports/<int:sport_id>", methods=["GET"])
+def get_sport(sport_id):
+    sport = Sport.query.get(sport_id)
+
+    # GET ONE METHOD VAILDATION
+
+    if not sport:
+        return jsonify({"message": "Sport Not Found"}), 404
+
+    return jsonify(
+        {
+            "sport_id": sport.sport_id,
+            "sport_name": sport.sport_name,
+            "entry_token": sport.entry_token,
+            "entry_fee": sport.entry_fee,
+            "trainer": sport.trainer,
+            "created_at": sport.created_at,
+        }
+    )
+
+
 # Error handling with if condition
 
 if __name__ == "__main__":
