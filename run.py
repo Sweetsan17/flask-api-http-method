@@ -147,7 +147,7 @@ def update_player(player_id):
     if not data:
         return jsonify({"message": "Data Must Be Required"}), 400
 
-    elif not data.get("player_id"):
+    elif not player:
         return jsonify({"message": "Player Not Found"}), 404
 
     if "name" in data:
