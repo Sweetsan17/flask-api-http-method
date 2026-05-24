@@ -21,7 +21,7 @@ class Player(db.Model):
     player_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(100), nullable=False)
     age = db.Column(db.Integer, nullable=False)
-    phone_no = db.Column(db.Integer, nullable=False, unique=True)
+    phone_no = db.Column(db.String(10), nullable=False, unique=True)
     sport = db.Column(db.String(60), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
