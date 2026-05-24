@@ -167,6 +167,24 @@ def update_player(player_id):
     return jsonify({"message": "Player Has Been Updated Successfully"}), 200
 
 
+# DELETE METHOD ROUTE
+
+
+@app.route("/api/players/<int:player_id>", methods=["DELETE"])
+def delete_player(player_id):
+    player = Player.query.get(player_id)
+
+    # DELETE METHOD VAILDATION
+
+    if not player:
+        return jsonify({"message": "Player Not Found"}), 404
+
+    db.session.delete(player)
+    db.session.commit()
+
+    return jsonify({"message": f"Player id={player_id} is Deleted Successfully"}), 200
+
+
 # Error handling with if condition
 
 if __name__ == "__main__":
