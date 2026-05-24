@@ -98,7 +98,7 @@ def get_players():
     for player in players:
         details.append(
             {
-                "id": player.id,
+                "id": player.player_id,
                 "name": player.name,
                 "age": player.age,
                 "phone_no": player.phone_no,
