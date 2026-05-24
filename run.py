@@ -109,6 +109,30 @@ def get_players():
     return jsonify(details), 200
 
 
+# GET ONE METHOD ROUTE
+
+
+@app.route("/api/players/<int:player_id>", methods=["GET"])
+def get_player(player_id):
+    player = Player.query.get(player_id)
+
+    # GET ONE METHOD VAILDATION
+
+    if not player:
+        return jsonify({"message": "Player Not Found"}), 404
+
+    return jsonify(
+        {
+            "id": player.player_id,
+            "name": player.name,
+            "age": player.age,
+            "phone_no": player.phone_no,
+            "sport": player.sport,
+            "created_at": player.created_at,
+        }
+    )
+
+
 # Error handling with if condition
 
 if __name__ == "__main__":
