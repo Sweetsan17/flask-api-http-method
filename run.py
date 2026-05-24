@@ -314,6 +314,24 @@ def update_sport(sport_id):
     return jsonify({"message": "Sports Have Been Updated Successfully"}), 200
 
 
+# DELETE METHOD ROUTE
+
+
+@app.route("/api/sports/<int:sport_id>", methods=["DELETE"])
+def delete_sport(sport_id):
+    sport = Sport.query.get(sport_id)
+
+    # DELETE METHOD VAILDATION
+
+    if not sport:
+        return jsonify({"message": "Sport Not Found"}), 404
+
+    db.session.delete(sport)
+    db.session.commit()
+
+    return jsonify({"message": f"Sport id={sport_id} is Deleted Successfully"}), 200
+
+
 # Error handling with if condition
 
 if __name__ == "__main__":
