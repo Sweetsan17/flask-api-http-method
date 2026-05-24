@@ -233,6 +233,29 @@ def create_sport():
     )
 
 
+# GET ALL METHOD ROUTE
+
+
+@app.route("/api/sports", methods=["GET"])
+def get_sports():
+    sports = Sport.query.all()
+
+    details = []
+
+    for sport in sports:
+        details.append(
+            {
+                "id": sport.sport_id,
+                "sport_name": sport.sport_name,
+                "entry_token": sport.entry_token,
+                "entry_fee": sport.entry_fee,
+                "trainer": sport.trainer,
+                "created_at": sport.created_at,
+            }
+        )
+    return jsonify(details), 200
+
+
 # Error handling with if condition
 
 if __name__ == "__main__":
