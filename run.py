@@ -86,6 +86,29 @@ def create_player():
     )
 
 
+# GET ALL METHOD ROUTE
+
+
+@app.route("/api/players", methods=["GET"])
+def get_players():
+    players = Player.query.all()
+
+    details = []
+
+    for player in players:
+        details.append(
+            {
+                "id": player.id,
+                "name": player.name,
+                "age": player.age,
+                "phone_no": player.phone_no,
+                "sport": player.sport,
+                "created_at": player.created_at,
+            }
+        )
+    return jsonify(details), 200
+
+
 # Error handling with if condition
 
 if __name__ == "__main__":
