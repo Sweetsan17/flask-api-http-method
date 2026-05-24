@@ -29,7 +29,7 @@ class Player(db.Model):
 class Sport(db.Model):
     sport_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     sport_name = db.Column(db.String(60), nullable=False)
-    entry_token = db.Column(db.Integer, nullable=False, unique=True)
+    entry_token = db.Column(db.String(50), nullable=False, unique=True)
     entry_fee = db.Column(db.Float, nullable=False)
     trainer = db.Column(db.String(100), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -213,7 +213,7 @@ def create_sport():
             return jsonify({"message": "This Entry Token Already Existed"}), 409
 
     new_sports = Sport(
-        sport_name=data["name"],
+        sport_name=data["sport_name"],
         entry_token=data["entry_token"],
         entry_fee=data["entry_fee"],
         trainer=data["trainer"],
