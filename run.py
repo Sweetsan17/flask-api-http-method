@@ -280,6 +280,40 @@ def get_sport(sport_id):
     )
 
 
+#  PUT METHOD ROUTE
+
+
+@app.route("/api/sports/<int:sport_id>", methods=["PUT"])
+def update_sport(sport_id):
+    sport = Sport.query.get(sport_id)
+
+    # PUT METHOD VAILDATION
+
+    data = request.json
+
+    if not data:
+        return jsonify({"message": "Data Must Be Required"}), 400
+
+    elif not sport:
+        return jsonify({"message": "Sport Not Found"}), 404
+
+    if "sport_name" in data:
+        sport.sport_name = data["sport_name"]
+
+    if "entry_token" in data:
+        sport.entry_token = data["entry_token"]
+
+    if "entry_fee" in data:
+        sport.entry_fee = data["entry_fee"]
+
+    if "trainer" in data:
+        sport.trainer = data["trainer"]
+
+    db.session.commit()
+
+    return jsonify({"message": "Sports Have Been Updated Successfully"}), 200
+
+
 # Error handling with if condition
 
 if __name__ == "__main__":
