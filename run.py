@@ -133,6 +133,40 @@ def get_player(player_id):
     )
 
 
+#  PUT METHOD ROUTE
+
+
+@app.route("/api/players/<int:player_id>", methods=["PUT"])
+def update_player(player_id):
+    player = Player.query.get(player_id)
+
+    # PUT METHOD VAILDATION
+
+    data = request.json
+
+    if not data:
+        return jsonify({"message": "Data Must Be Required"}), 400
+
+    elif not data.get("player_id"):
+        return jsonify({"message": "Player Not Found"}), 404
+
+    if "name" in data:
+        player.name = data["name"]
+
+    if "age" in data:
+        player.age = data["age"]
+
+    if "phone_no" in data:
+        player.phone_no = data["phone_no"]
+
+    if "sport" in data:
+        player.sport = data["sport"]
+
+    db.session.commit()
+
+    return jsonify({"message": "Player Has Been Updated Successfully"}), 200
+
+
 # Error handling with if condition
 
 if __name__ == "__main__":
