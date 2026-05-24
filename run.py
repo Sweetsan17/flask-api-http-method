@@ -35,6 +35,57 @@ class Sport(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 
+# PLAYER HTTP METHODS USED
+# POST METHOD ROUTE
+
+
+@app.route("/api/players", methods=["POST"])
+def create_player():
+    data = request.get_json()
+
+    # POST METHOD VAILDATIONS
+
+    if not data:
+        return jsonify({"message": "You Must Feed Player Data"}), 400
+
+    elif not data.get("name"):
+        return jsonify({"message": "Player Name Is Required"}), 400
+
+    elif not data.get("age"):
+        return jsonify({"message": "Player Age is Required"}), 400
+
+    elif not data.get("phone_no"):
+        return jsonify({"messsage": "Player Phone Number is Required"}), 400
+
+    elif not data.get("sport"):
+        return jsonify({"message": "Player In Sports Must Be Required"}), 400
+
+    else:
+        existing = Player.query.filter_by(phone_no=data["phone_no"]).first()
+        if existing:
+            return jsonify({"message": "This Phone Number Already Existed"}), 409
+
+    new_player = Player(
+        name=data["name"],
+        age=data["age"],
+        phone_no=data["phone_no"],
+        sport=data["sport"],
+    )
+
+    db.session.add(new_player)
+    db.session.commit()
+
+    return (
+        jsonify(
+            {
+                "message": "Player Records Are Added Successfully >>>",
+                "id": new_player.player_id,
+            }
+        ),
+        201,
+    )
+
+
 # Error handling with if condition
 
 if __name__ == "__main__":
