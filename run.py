@@ -185,6 +185,54 @@ def delete_player(player_id):
     return jsonify({"message": f"Player id={player_id} is Deleted Successfully"}), 200
 
 
+# SPORT HTTP METHODS USED
+# POST METHODE ROUTE
+
+
+@app.route("/api/sports", methods=["POST"])
+def create_sport():
+    data = request.get_json()
+
+    # POST METHOD VAILDATIONS
+
+    if not data:
+        return jsonify({"message": "You Must Feed Sport Data"}), 400
+
+    elif not data.get("sport_name"):
+        return jsonify({"message": "Sport Name Is Required"}), 400
+
+    elif not data.get("entry_token"):
+        return jsonify({"message": "Sport Entry Token is Required"}), 400
+
+    elif not data.get("entry_fee"):
+        return jsonify({"messsage": "Sport Entry Fee is Required"}), 400
+
+    else:
+        existing = Sport.query.filter_by(entry_token=data["entry_token"]).first()
+        if existing:
+            return jsonify({"message": "This Entry Token Already Existed"}), 409
+
+    new_sports = Sport(
+        sport_name=data["name"],
+        entry_token=data["entry_token"],
+        entry_fee=data["entry_fee"],
+        trainer=data["trainer"],
+    )
+
+    db.session.add(new_sports)
+    db.session.commit()
+
+    return (
+        jsonify(
+            {
+                "message": "Sport Records Are Added Successfully >>>",
+                "id": new_sports.sport_id,
+            }
+        ),
+        201,
+    )
+
+
 # Error handling with if condition
 
 if __name__ == "__main__":
